@@ -1,5 +1,7 @@
 package org.indivaragroup.jdt17.enterprise.service.serviceImpl;
 
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.indivaragroup.jdt17.enterprise.properties.CompanyProperties;
 import org.indivaragroup.jdt17.enterprise.properties.DatabaseProperties;
@@ -13,64 +15,57 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 
 @Service
 @RequiredArgsConstructor
+@Getter
 public class ReportTemplateServiceImpl implements ReportTemplateService {
 
     private final Environment environment;
-
     private final ResourceLoader resourceLoader;
+
     private final CompanyProperties companyProperties;
     private final DatabaseProperties databaseProperties;
     private final FeatureProperties featureProperties;
     private final MailProperties mailProperties;
 
+    private String template;
+
+    @PostConstruct
+    public void init() throws IOException {
+
+        Resource resource =
+                resourceLoader.getResource(
+                        "classpath:templates/report-template.txt");
+
+        String reportTemplate =
+                resource.getContentAsString(StandardCharsets.UTF_8);
+
+        this.template = MessageFormat.format(
+                reportTemplate,
+                getCurrentProfile(),
+                companyProperties.name(),
+                companyProperties.timezone(),
+                status(featureProperties.attendance()),
+                status(featureProperties.directSelling()),
+                status(featureProperties.loyalty()),
+                status(mailProperties.enabled()),
+                databaseProperties.host(),
+                String.valueOf(databaseProperties.port()),
+                databaseProperties.username()
+        );
+
+        System.out.println(this.template);
+    }
 
     @Override
-    public String getReportTemplate(){
-        try {
-
-            Resource resource =
-                    resourceLoader.getResource(
-                            "classpath:templates/report-template.txt"
-                    );
-
-            String template =
-                    resource.getContentAsString(
-                            StandardCharsets.UTF_8
-                    );
-
-            return template
-                    .replace("{{environment}}",  getCurrentProfile())
-                    .replace("{{companyName}}",
-                            companyProperties.name())
-                    .replace("{{timezone}}",
-                            companyProperties.timezone())
-                    .replace("{{attendance}}",
-                            status(featureProperties.attendance()))
-                    .replace("{{directSelling}}",
-                            status(featureProperties.directSelling()))
-                    .replace("{{loyalty}}",
-                            status(featureProperties.loyalty()))
-                    .replace("{{mailEnabled}}",
-                            status(mailProperties.enabled()))
-                    .replace("{{dbHost}}",
-                            databaseProperties.host())
-                    .replace("{{dbPort}}",
-                            databaseProperties.port())
-                    .replace("{{dbUser}}",
-                            databaseProperties.username());
-
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to create report template", e);
-        }
+    public String getReportTemplate() {
+        return template;
     }
 
     private String status(boolean enabled) {
-        return enabled
-                ? "ENABLED"
-                : "DISABLED";
+        return enabled ? "ENABLED" : "DISABLED";
     }
 
     private String getCurrentProfile() {

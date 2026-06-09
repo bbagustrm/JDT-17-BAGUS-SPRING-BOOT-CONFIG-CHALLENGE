@@ -3,20 +3,20 @@
         MULTI USAHA HEBAT
 ===================================
 
-Environment   : {{environment}}
+Environment   : {0}
 
-Company       : {{companyName}}
-Timezone      : {{timezone}}
+Company       : {1}
+Timezone      : {2}
 
-Attendance    : {{attendance}}
-Direct Sell   : {{directSelling}}
-Loyalty       : {{loyalty}}
+Attendance    : {3}
+Direct Sell   : {4}
+Loyalty       : {5}
 
-Mail          : {{mailEnabled}}
+Mail          : {6}
 
-Database Host : {{dbHost}}
-Database Port : {{dbPort}}
-Database User : {{dbUser}}
+Database Host : {7}
+Database Port : {8}
+Database User : {9}
 Database Pass : ********
 
 ===================================
