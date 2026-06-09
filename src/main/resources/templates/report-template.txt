@@ -1,0 +1,22 @@
+===================================
+   CONFIGURATION STARTUP REPORT
+        MULTI USAHA HEBAT
+===================================
+
+Environment   : {{environment}}
+
+Company       : {{companyName}}
+Timezone      : {{timezone}}
+
+Attendance    : {{attendance}}
+Direct Sell   : {{directSelling}}
+Loyalty       : {{loyalty}}
+
+Mail          : {{mailEnabled}}
+
+Database Host : {{dbHost}}
+Database Port : {{dbPort}}
+Database User : {{dbUser}}
+Database Pass : ********
+
+===================================

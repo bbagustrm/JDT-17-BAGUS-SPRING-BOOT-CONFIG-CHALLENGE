@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: jdt17.enterprise.config
+  profiles:
+    default: dev
+company:
+  code: MUH
+  name: Multi Usaha Hebat
+  timezone: Asia/Jakarta
+database:
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}
+  username: ${DB_USERNAME:postgres}
+  password: ${DB_PASSWORD:password}
+mail:
+  enabled: true
+  host: ${MAIL_HOST:smtp.gmail.com}
+  port: ${MAIL_PORT:587}
+features:
+  attendance: true
+  direct-selling: true
+  loyalty: false
+sales:
+  route:
+    max-outlet-per-route: 250
